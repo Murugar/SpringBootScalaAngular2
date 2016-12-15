@@ -1,3 +1,3 @@
 # SpringBootScalaAngular2
 
-Spring Boot Scala Angular2 Karma Jasmine 
+Spring Boot Scala Angular2 Karma Jasmine WebPack
