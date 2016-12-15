@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./app",
+    "paths": { },
+    "lib": [ "es2015", "dom" ],
+    "types": [
+     "jasmine",
+       "lodash",
+      "pluralize",
+      "source-map",
+       "toastr",
+        "webpack",
+        "sinon"//,
+       // "jasmine-sinon",
+      ]
+  },
+ 
+  "filesGlob": [
+	    "./app/*.ts",
+	    "./app/*.js",
+	    "./app/domain/*.js",
+	    "./app/domain/*.domain.js",
+	    "./app/domain/*.domain.ts",
+	    "./app/domain/*.ts",
+	    "!node_modules/**/*"
+	  ],
+	  "awesomeTypescriptLoaderOptions": {
+		    "forkChecker": true,
+		    "useWebpackText": true
+		  },
+		  "compileOnSave": false,
+		  "buildOnSave": false,
+		  "atom": {
+		    "rewriteTsconfig": false
+		  },	  
+  "exclude": [
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
+  ]
+}

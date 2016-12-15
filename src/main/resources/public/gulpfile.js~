@@ -1,0 +1,100 @@
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var Server = require('karma').Server;
+var clean = require('gulp-clean');
+var webserver = require('gulp-webserver');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+//var typescript = require('gulp-tsc');
+const typescript = require('gulp-typescript');
+//const tscConfig = require('./tsconfig.json');
+
+gulp.task('cleanall', ['cleamod', 'cleantypings'], function () {
+    return gulp.src('coverage', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('cleancoverage', function () {
+    return gulp.src('coverage', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('cleanmod', function () {
+    return gulp.src('node_modules', {read: false})
+        .pipe(clean());
+});
+
+
+var shell = require('gulp-shell');
+
+gulp.task('build', function () {
+  return gulp.src('app/*.ts')
+    .pipe(shell('npm run tsc'))
+    .pipe(gulp.dest('dist'))
+   
+});
+
+gulp.task('cleantypings', function () {
+    return gulp.src('typings', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('cleandist', function () {
+    return gulp.src('dist', {read: false})
+        .pipe(clean());
+});
+
+
+gulp.task('test:watch', ['cleancoverage'], function (done) {
+	  new Server({
+	    configFile: __dirname + '/karma.conf.js',
+	    singleRun: false,
+	    autoWatch: true,
+	    browsers: ['Chrome']
+	  }, done).start();
+	});
+
+gulp.task('test', ['cleancoverage'], function (done) {
+	  new Server({
+	    configFile: __dirname + '/karma.conf.js',
+	    browsers: ['Chrome'],
+	    singleRun: true
+	  }, function (exitCode) {
+	      done();
+	     // process.exit(exitCode);
+	  }).start();
+	});
+
+gulp.task('remap', ['test'], function () {
+    return gulp.src('coverage/coverage-final.json')
+        .pipe(remapIstanbul({
+            reports: {
+                'html': 'coverage'
+            }
+        }));
+});
+
+gulp.task('coverage', ['remap'], function() {
+	  gulp.src('coverage')
+	    .pipe(webserver({
+	      port : 9875 	
+	    }));
+	});
+
+
+
+gulp.task('compile', function(){
+  gulp.src(['app/*.ts'])
+    .pipe(typescript());
+});
+
+const tslint = require('gulp-tslint');
+
+gulp.task('tslint', function() {
+  return gulp.src('app/*.ts')
+    .pipe(tslint())
+    .pipe(tslint.report('verbose'));
+});
+
+
+gulp.task('default', ['coverage']);
+

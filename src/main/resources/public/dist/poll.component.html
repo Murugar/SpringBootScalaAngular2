@@ -1,0 +1,21 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ poll.name }}
+        </h3>
+    </div>
+    
+    <div class="panel-body">
+        <div class="radio" *ngFor="let choice of poll.choices">
+            <label>
+                <input type="radio" name="optradio" [checked]="selectedChoice && choice.id == selectedChoice.id" 
+                    value="{{ choice.id }}" (click)="selectChoice(choice)">{{ choice.choice }}
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <button class="btn btn-primary" (click)="submitPoll()">Submit Poll</button>
+        </div>
+        
+    </div> <!-- End of panel body -->
+</div>

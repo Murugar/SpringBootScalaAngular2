@@ -1,0 +1,10 @@
+<h2>Realtime</h2>
+
+<div class="row">
+    <div class="col-md-4" *ngFor="let stat of stats">
+        <h3>{{ stat.name }}</h3>
+        <nvd3 [options]="options" [data]="stat.data"></nvd3>
+        
+        <h4>Number of Votes: {{ stat.totalVote}}</h4>
+    </div>
+</div>
